@@ -289,11 +289,11 @@ Connection::Connection(int verbosityLevel) {
   signal(SIGPIPE, SIG_IGN);
 #endif
 
-  std::string blenderShellPath(TMPDIR);
-  blenderShellPath += "/hecl_blendershell.py";
+  std::string blenderShellPath;
+  blenderShellPath = TMPDIR + "/hecl_blendershell.py";
 
-  std::string blenderAddonPath(TMPDIR);
-  blenderAddonPath += "/hecl_blenderaddon.zip";
+  std::string blenderAddonPath;
+  blenderAddonPath = TMPDIR + "/hecl_blenderaddon.zip";
 
   bool FalseCmp = false;
   if (BlenderFirstInit.compare_exchange_strong(FalseCmp, true)) {
