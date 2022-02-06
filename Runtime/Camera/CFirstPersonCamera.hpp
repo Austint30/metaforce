@@ -44,8 +44,9 @@ public:
     m_hmdLocalTransform = input.m_hmdTransform;
   }
   zeus::CTransform GetTransformVR() const override {
-    zeus::CTransform modified = x34_transform * m_hmdLocalTransform;
-    return modified;
+    float camPitch = zeus::CQuaternion(x34_transform.getRotation().buildMatrix3f()).pitch();
+    zeus::CTransform xLockedTransform = x34_transform * zeus::CTransform::RotateX(-camPitch);
+    return xLockedTransform * m_hmdLocalTransform;
   }
 };
 } // namespace metaforce
