@@ -29,6 +29,7 @@
 #include "Runtime/World/ScriptLoader.hpp"
 #include "Runtime/World/ScriptObjectSupport.hpp"
 #include "Runtime/World/CScriptMazeNode.hpp"
+#include "Runtime/Input/CFinalVRTrackingInput.hpp"
 
 #include <zeus/CAABox.hpp>
 #include <zeus/CVector2f.hpp>
@@ -317,6 +318,7 @@ public:
   void SetGameState(EGameState state);
   EGameState GetGameState() const { return x904_gameState; }
   void ProcessInput(const CFinalInput& input);
+  void ProcessVRInput(const CFinalVRTrackingInput& input);
   void UpdateGraphicsTiming(float dt);
   void Update(float dt);
   void UpdateGameState();

@@ -2151,6 +2151,23 @@ void CStateManager::ProcessInput(const CFinalInput& input) {
   x870_cameraManager->ProcessInput(input, *this);
 }
 
+void CStateManager::ProcessVRInput(const CFinalVRTrackingInput& input) {
+//  if (input.ControllerIdx() == 0) {
+//    const CGameCamera* cam = x870_cameraManager->GetCurrentCamera(*this);
+//    bool disableInput = cam->x170_25_disablesInput;
+//    if (x84c_player->x9c6_29_disableInput) {
+//      disableInput = true;
+//    }
+//    if (disableInput) {
+//      xb54_finalInput = s_DisabledFinalInput;
+//      xb54_finalInput.x0_dt = input.DeltaTime();
+//    } else {
+//      xb54_finalInput = input;
+//    }
+//  }
+  x870_cameraManager->ProcessVRInput(input, *this);
+}
+
 void CStateManager::UpdateGraphicsTiming(float dt) {
   xf14_curTimeMod900 += dt;
   if (xf14_curTimeMod900 > 900.f) {

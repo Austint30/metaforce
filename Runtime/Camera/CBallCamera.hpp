@@ -272,6 +272,9 @@ public:
   const TUniqueId GetCollisionActorId() const { return x46c_collisionActorId; }
 
   static bool IsBallNearDoor(const zeus::CVector3f& pos, CStateManager& mgr);
+
+  void ProcessVRInput(const CFinalVRTrackingInput& input, CStateManager& mgr) override {}
+  zeus::CTransform GetTransformVR() const override { return x34_transform; }
 };
 
 } // namespace metaforce

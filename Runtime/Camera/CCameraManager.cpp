@@ -36,7 +36,13 @@ zeus::CVector3f CCameraManager::GetGlobalCameraTranslation(const CStateManager& 
 
 zeus::CTransform CCameraManager::GetCurrentCameraTransform(const CStateManager& stateMgr) const {
   const CGameCamera* camera = GetCurrentCamera(stateMgr);
-  return camera->GetTransform() * zeus::CTransform::Translate(x30_shakeOffset);
+//  return camera->GetTransform() * zeus::CTransform::Translate(x30_shakeOffset); // TODO: PLEASE UNCOMMENT AFTER STUFF BELOW IS WORKING
+  return camera->GetTransformVR() * zeus::CTransform::Translate(x30_shakeOffset);
+}
+
+zeus::CTransform CCameraManager::GetCurrentCameraTransformVR(const CStateManager& stateMgr) const {
+  const CGameCamera* camera = GetCurrentCamera(stateMgr);
+  return camera->GetTransformVR() * zeus::CTransform::Translate(x30_shakeOffset);
 }
 
 void CCameraManager::RemoveCameraShaker(u32 id) {
@@ -599,6 +605,19 @@ void CCameraManager::ProcessInput(const CFinalInput& input, CStateManager& state
       continue;
     }
     cam.ProcessInput(input, stateMgr);
+  }
+}
+
+void CCameraManager::ProcessVRInput(const CFinalVRTrackingInput& input, CStateManager& mgr) {
+  for (CEntity* ent : mgr.GetCameraObjectList()) {
+    if (ent == nullptr) {
+      continue;
+    }
+    auto& cam = static_cast<CGameCamera&>(*ent);
+//    if (input.ControllerIdx() != cam.x16c_controllerIdx) {
+//      continue;
+//    }
+    cam.ProcessVRInput(input, mgr);
   }
 }
 

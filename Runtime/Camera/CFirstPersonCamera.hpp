@@ -38,5 +38,14 @@ public:
   void SetScriptPitchId(TUniqueId uid) { x1c4_pitchId = uid; }
   void SetLockCamera(bool v) { x18c_lockCamera = v; }
   void DeferBallTransitionProcessing() { x1c6_24_deferBallTransitionProcessing = true; }
+
+  void ProcessVRInput(const CFinalVRTrackingInput& input, CStateManager& mgr) override {
+    zeus::CTransform temp = input.m_hmdTransform;
+    m_hmdLocalTransform = input.m_hmdTransform;
+  }
+  zeus::CTransform GetTransformVR() const override {
+    zeus::CTransform modified = x34_transform * m_hmdLocalTransform;
+    return modified;
+  }
 };
 } // namespace metaforce

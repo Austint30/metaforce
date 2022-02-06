@@ -55,6 +55,9 @@ public:
   void WasDeactivated(CStateManager& mgr);
   void SendArrivedMsg(TUniqueId reciever, CStateManager& mgr);
   float GetDuration() const { return x1e8_duration; }
+
+  void ProcessVRInput(const CFinalVRTrackingInput& input, CStateManager& mgr) override {}
+  zeus::CTransform GetTransformVR() const override { return x34_transform; }
 };
 
 } // namespace metaforce

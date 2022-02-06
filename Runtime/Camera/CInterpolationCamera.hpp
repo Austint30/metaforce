@@ -37,6 +37,9 @@ public:
   void SetInterpolation(const zeus::CTransform& xf, const zeus::CVector3f& lookPos, float maxTime, float positionSpeed,
                         float rotationSpeed, TUniqueId camId, bool sinusoidal, CStateManager& mgr);
   void DeactivateInterpCamera(CStateManager&);
+
+  void ProcessVRInput(const CFinalVRTrackingInput& input, CStateManager& mgr) override {}
+  zeus::CTransform GetTransformVR() const override { return x34_transform; }
 };
 
 } // namespace metaforce
