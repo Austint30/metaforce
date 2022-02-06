@@ -36,13 +36,16 @@ zeus::CVector3f CCameraManager::GetGlobalCameraTranslation(const CStateManager& 
 
 zeus::CTransform CCameraManager::GetCurrentCameraTransform(const CStateManager& stateMgr) const {
   const CGameCamera* camera = GetCurrentCamera(stateMgr);
-//  return camera->GetTransform() * zeus::CTransform::Translate(x30_shakeOffset); // TODO: PLEASE UNCOMMENT AFTER STUFF BELOW IS WORKING
+//  return camera->GetTransform() * zeus::CTransform::Translate(x30_shakeOffset); // TODO: ADD VR DETECTION
   return camera->GetTransformVR() * zeus::CTransform::Translate(x30_shakeOffset);
 }
 
-zeus::CTransform CCameraManager::GetCurrentCameraTransformVR(const CStateManager& stateMgr) const {
+/**
+ * Gets the pure transform of the current camera (no VR modifications)
+ */
+zeus::CTransform CCameraManager::GetCurrentCameraTransformPure(const CStateManager& stateMgr) const {
   const CGameCamera* camera = GetCurrentCamera(stateMgr);
-  return camera->GetTransformVR() * zeus::CTransform::Translate(x30_shakeOffset);
+  return camera->GetTransform() * zeus::CTransform::Translate(x30_shakeOffset);
 }
 
 void CCameraManager::RemoveCameraShaker(u32 id) {

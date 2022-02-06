@@ -3197,7 +3197,8 @@ CFirstPersonCamera& CPlayer::GetFirstPersonCamera(CStateManager& mgr) {
 void CPlayer::UpdateGunTransform(const zeus::CVector3f& gunPos, CStateManager& mgr) {
   const float eyeHeight = GetEyeHeight();
   const zeus::CTransform camXf = mgr.GetCameraManager()->GetCurrentCameraTransform(mgr);
-  zeus::CTransform gunXf = camXf;
+  const zeus::CTransform pureCamXf = mgr.GetCameraManager()->GetCurrentCameraTransformPure(mgr);
+  zeus::CTransform gunXf = pureCamXf;
 
   zeus::CVector3f viewGunPos;
   if (x2f8_morphBallState == EPlayerMorphBallState::Morphing) {
