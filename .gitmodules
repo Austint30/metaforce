@@ -44,7 +44,7 @@
 	branch = master
 [submodule "extern/boo"]
 	path = extern/boo
-	url = ../boo.git
+	url = https://github.com/Austint30/boo.git
 	branch = master
 [submodule "extern/libjpeg-turbo"]
 	path = extern/libjpeg-turbo
