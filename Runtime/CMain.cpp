@@ -270,6 +270,7 @@ private:
   bool m_firstFrame = true;
   using delta_clock = std::chrono::high_resolution_clock;
   std::chrono::time_point<delta_clock> m_prevFrameTime;
+  std::shared_ptr<boo::OpenXROptions> m_openxr_options;
 
 public:
   Application(hecl::Runtime::FileStoreManager& fileMgr, hecl::CVarManager& cvarMgr, hecl::CVarCommons& cvarCmns)
@@ -284,6 +285,7 @@ public:
     }
     m_window->setCallback(&m_windowCallback);
     m_window->showWindow();
+    initializeOpenXR(app);
 
     boo::IGraphicsDataFactory* gfxF = m_window->getMainContextDataFactory();
     m_window->setTitle(fmt::format(FMT_STRING("Metaforce {} [{}]"), METAFORCE_WC_DESCRIBE, gfxF->platformName()));
@@ -365,6 +367,17 @@ public:
     Log.report(logvisor::Info, FMT_STRING("CPU Name: {}"), cpuInf.cpuBrand);
     Log.report(logvisor::Info, FMT_STRING("CPU Vendor: {}"), cpuInf.cpuVendor);
     Log.report(logvisor::Info, FMT_STRING("CPU Features: {}"), CPUFeatureString(cpuInf));
+  }
+
+  void initializeOpenXR(boo::IApplication* app){
+    for (const auto& arg : app->getArgs()) {
+      if (arg.find("--openxr")){
+        Log.report(logvisor::Info, FMT_STRING("Initializing OpenXR"));
+        auto gdf = std::shared_ptr<boo::IGraphicsDataFactory>(m_window->getDataFactory());
+        app->initOpenXRSystem(m_openxr_options, gdf);
+        break;
+      }
+    }
   }
 
   void onAppIdle() noexcept {
