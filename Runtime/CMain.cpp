@@ -279,12 +279,7 @@ public:
   int appMain(boo::IApplication* app) override {
     initialize(app);
 
-    if (hasOpenXRArg(app)) {
-      Log.report(logvisor::Info, FMT_STRING("Enabling OpenXR support."));
-      m_window = app->newWindowXr("Metaforce"sv);
-    } else {
-      m_window = app->newWindow("Metaforce"sv);
-    }
+    m_window = app->newWindow("Metaforce"sv);
     if (!m_window) {
       return 1;
     }
