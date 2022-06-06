@@ -25,13 +25,13 @@ std::vector<zeus::CTransform> CVRInput::getEyeTransforms() {
     zeus::CQuaternion quat = zeus::CQuaternion(
         view.pose.orientation.w,
         view.pose.orientation.x,
-        view.pose.orientation.y,
-        view.pose.orientation.z
+        -view.pose.orientation.z,
+        view.pose.orientation.y
       );
     zeus::CVector3f pos = zeus::CVector3f(
         view.pose.position.x,
-        view.pose.position.y,
-        view.pose.position.z
+        -view.pose.position.z,
+        view.pose.position.y
     );
     zeus::CTransform trans = zeus::CTransform{quat, pos};
     eyeTrans.push_back(trans);
