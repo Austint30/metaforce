@@ -121,7 +121,7 @@ CIOWin::EMessageReturn CMFGame::OnMessage(const CArchitectureMessage& msg, CArch
     if (!x2a_24_initialized)
       break;
     const CFinalInput& input = MakeMsg::GetParmUserInput(msg).x4_parm;
-    const CFinalVRTrackingInput& vrInput = m_REMOVE_ME_finalVrTrackingInput;
+    const CVRInput& vrInput = m_REMOVE_ME_finalVrTrackingInput;
     if (x1c_flowState == EGameFlowState::InGame) {
       if (input.ControllerIdx() == 0) {
         const CEntity* cam = x14_stateManager->GetCameraManager()->GetCurrentCamera(*x14_stateManager);
@@ -142,7 +142,6 @@ CIOWin::EMessageReturn CMFGame::OnMessage(const CArchitectureMessage& msg, CArch
 
       x14_stateManager->SetActiveRandomToDefault();
       x14_stateManager->ProcessInput(input);
-      x14_stateManager->ProcessVRInput(vrInput);
       x14_stateManager->ClearActiveRandom();
     }
     x18_guiManager->ProcessControllerInput(*x14_stateManager, input, queue);

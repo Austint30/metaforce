@@ -201,7 +201,7 @@ elseif (APPLE)
 elseif (UNIX)
     add_subdirectory(platforms/freedesktop)
     declare_wmicon_target()
-    set(PLAT_SRCS mainicon_netwm.cpp Input/CFinalVRTrackingInput.hpp Input/CFinalVRTrackingInput.cpp)
+    set(PLAT_SRCS mainicon_netwm.cpp Input/CVRInput.hpp Input/CVRInput.cpp)
     set(PLAT_LIBS rt)
 endif ()
 

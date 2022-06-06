@@ -2,7 +2,7 @@
 
 #include "Runtime/RetroTypes.hpp"
 #include "Runtime/World/CActor.hpp"
-#include "Input/CFinalVRTrackingInput.hpp"
+#include "Input/CVRInput.hpp"
 
 #include <zeus/CMatrix4f.hpp>
 #include <zeus/CTransform.hpp>
@@ -41,7 +41,7 @@ public:
   void AcceptScriptMsg(EScriptObjectMessage, TUniqueId, CStateManager&) override;
   void SetActive(bool active) override;
   virtual void ProcessInput(const CFinalInput&, CStateManager& mgr) = 0;
-  virtual void ProcessVRInput(const CFinalVRTrackingInput& input, CStateManager& mgr) = 0;
+  virtual void ProcessVRInput(const CVRInput& input, CStateManager& mgr) = 0;
   virtual zeus::CTransform GetTransformVR() const = 0;
   virtual void Reset(const zeus::CTransform&, CStateManager& mgr) = 0;
 

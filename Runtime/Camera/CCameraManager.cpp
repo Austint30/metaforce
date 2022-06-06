@@ -36,7 +36,9 @@ zeus::CVector3f CCameraManager::GetGlobalCameraTranslation(const CStateManager& 
 
 zeus::CTransform CCameraManager::GetCurrentCameraTransform(const CStateManager& stateMgr) const {
   const CGameCamera* camera = GetCurrentCamera(stateMgr);
-//  return camera->GetTransform() * zeus::CTransform::Translate(x30_shakeOffset); // TODO: ADD VR DETECTION
+  if (boo::g_OpenXRSessionManager == nullptr){
+    return camera->GetTransform() * zeus::CTransform::Translate(x30_shakeOffset);
+  }
   return camera->GetTransformVR() * zeus::CTransform::Translate(x30_shakeOffset);
 }
 
@@ -611,7 +613,7 @@ void CCameraManager::ProcessInput(const CFinalInput& input, CStateManager& state
   }
 }
 
-void CCameraManager::ProcessVRInput(const CFinalVRTrackingInput& input, CStateManager& mgr) {
+void CCameraManager::ProcessVRInput(const CVRInput& input, CStateManager& mgr) {
   for (CEntity* ent : mgr.GetCameraObjectList()) {
     if (ent == nullptr) {
       continue;

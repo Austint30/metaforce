@@ -7,7 +7,7 @@
 #include "Runtime/Camera/CCameraFilter.hpp"
 #include "Runtime/Graphics/Shaders/CColoredQuadFilter.hpp"
 #include "Runtime/MP1/CInGameGuiManager.hpp"
-#include "Runtime/Input/CFinalVRTrackingInput.hpp"
+#include "Runtime/Input/CVRInput.hpp"
 
 namespace metaforce {
 class CStateManager;
@@ -20,7 +20,7 @@ enum class EGameFlowState { InGame = 0, Paused, SamusDied, CinematicSkip };
 class CMFGame : public CMFGameBase {
   std::shared_ptr<CStateManager> x14_stateManager;
   std::shared_ptr<CInGameGuiManager> x18_guiManager;
-  CFinalVRTrackingInput m_REMOVE_ME_finalVrTrackingInput = CFinalVRTrackingInput{};
+  CVRInput m_REMOVE_ME_finalVrTrackingInput = CVRInput{};
   EGameFlowState x1c_flowState = EGameFlowState::InGame;
   float x20_cineSkipTime;
   u32 x24_ = 0;

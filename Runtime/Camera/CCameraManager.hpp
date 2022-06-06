@@ -6,7 +6,7 @@
 #include "Runtime/RetroTypes.hpp"
 #include "Runtime/rstl.hpp"
 #include "Runtime/World/CGameArea.hpp"
-#include "Runtime/Input/CFinalVRTrackingInput.hpp"
+#include "Runtime/Input/CVRInput.hpp"
 
 #include <zeus/CVector3f.hpp>
 
@@ -126,7 +126,7 @@ public:
   void SetFogDensity(float fogDensityTarget, float fogDensitySpeed);
 
   void ProcessInput(const CFinalInput& input, CStateManager& stateMgr);
-  void ProcessVRInput(const CFinalVRTrackingInput& input, CStateManager& mgr);
+  void ProcessVRInput(const CVRInput& input, CStateManager& mgr);
 
   void RenderCameras(CStateManager& mgr);
   void SetupBallCamera(CStateManager& mgr);

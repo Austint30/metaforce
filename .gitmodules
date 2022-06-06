@@ -45,7 +45,7 @@
 [submodule "extern/boo"]
 	path = extern/boo
 	url = https://github.com/Austint30/boo.git
-	branch = master
+	branch = openxr-attempt
 [submodule "extern/libjpeg-turbo"]
 	path = extern/libjpeg-turbo
 	url = ../libjpeg-turbo.git

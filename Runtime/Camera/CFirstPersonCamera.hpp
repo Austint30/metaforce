@@ -17,6 +17,7 @@ class CFirstPersonCamera : public CGameCamera {
   bool x1c6_24_deferBallTransitionProcessing : 1 = false;
   zeus::CVector3f x1c8_closeInVec;
   float x1d4_closeInTimer = 0.f;
+  std::vector<zeus::CTransform> m_xrViews;
   void _fovListener(hecl::CVar* cv);
 
 public:
@@ -39,14 +40,16 @@ public:
   void SetLockCamera(bool v) { x18c_lockCamera = v; }
   void DeferBallTransitionProcessing() { x1c6_24_deferBallTransitionProcessing = true; }
 
-  void ProcessVRInput(const CFinalVRTrackingInput& input, CStateManager& mgr) override {
-    zeus::CTransform temp = input.m_hmdTransform;
-    m_hmdLocalTransform = input.m_hmdTransform;
+  void ProcessVRInput(const CVRInput& input, CStateManager& mgr) override {
+    m_xrViews = input.m_eyeTransforms;
   }
   zeus::CTransform GetTransformVR() const override {
     float camPitch = zeus::CQuaternion(x34_transform.getRotation().buildMatrix3f()).pitch();
     zeus::CTransform xLockedTransform = x34_transform * zeus::CTransform::RotateX(-camPitch);
-    return xLockedTransform * m_hmdLocalTransform;
+    if (m_xrViews.size() != 2){
+      return xLockedTransform;
+    }
+    return xLockedTransform * m_xrViews[0];
   }
 };
 } // namespace metaforce

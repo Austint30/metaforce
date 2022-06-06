@@ -29,7 +29,7 @@
 #include "Runtime/World/ScriptLoader.hpp"
 #include "Runtime/World/ScriptObjectSupport.hpp"
 #include "Runtime/World/CScriptMazeNode.hpp"
-#include "Runtime/Input/CFinalVRTrackingInput.hpp"
+#include "Runtime/Input/CVRInput.hpp"
 
 #include <zeus/CAABox.hpp>
 #include <zeus/CVector2f.hpp>
@@ -219,6 +219,9 @@ private:
 
   bool m_logScripting = false;
   std::optional<hecl::CVarValueReference<bool>> m_logScriptingReference;
+
+  CVRInput m_cvrInput;
+
   void UpdateThermalVisor();
   static void RendererDrawCallback(void*, void*, int);
 
@@ -318,7 +321,6 @@ public:
   void SetGameState(EGameState state);
   EGameState GetGameState() const { return x904_gameState; }
   void ProcessInput(const CFinalInput& input);
-  void ProcessVRInput(const CFinalVRTrackingInput& input);
   void UpdateGraphicsTiming(float dt);
   void Update(float dt);
   void UpdateGameState();
@@ -467,5 +469,11 @@ public:
 
   const CGameArea* GetCurrentArea() const;
   void SetWarping(bool warp) { m_warping = warp; }
+
+  std::shared_ptr<boo::OpenXRSessionManager> GetOpenXRSessionManager(){
+    return boo::g_OpenXRSessionManager;
+  }
+
+  void ProcessVRInput();
 };
 } // namespace metaforce

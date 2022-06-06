@@ -369,16 +369,6 @@ public:
     Log.report(logvisor::Info, FMT_STRING("CPU Features: {}"), CPUFeatureString(cpuInf));
   }
 
-  bool hasOpenXRArg(boo::IApplication* app){
-    for (const auto& arg : app->getArgs()) {
-      if (arg.find("--openxr")){
-        Log.report(logvisor::Info, FMT_STRING("OpenXR argument found."));
-        return true;
-      }
-    }
-    return false;
-  }
-
   void onAppIdle() noexcept {
     if (!m_deferredProject.empty()) {
       std::string subPath;

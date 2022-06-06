@@ -273,7 +273,7 @@ public:
 
   static bool IsBallNearDoor(const zeus::CVector3f& pos, CStateManager& mgr);
 
-  void ProcessVRInput(const CFinalVRTrackingInput& input, CStateManager& mgr) override {}
+  void ProcessVRInput(const CVRInput& input, CStateManager& mgr) override {}
   zeus::CTransform GetTransformVR() const override { return x34_transform; }
 };
 

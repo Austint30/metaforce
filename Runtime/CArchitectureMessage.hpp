@@ -26,6 +26,7 @@ enum class EArchMsgType {
   QuitGameplay = 8,
   FrameBegin = 10,
   FrameEnd = 11,
+  UserVRInput = 12,
 };
 
 struct IArchMsgParm {
@@ -110,6 +111,9 @@ public:
   }
   static CArchitectureMessage CreateUserInput(EArchMsgTarget target, const CFinalInput& input) {
     return CArchitectureMessage(target, EArchMsgType::UserInput, std::make_shared<CArchMsgParmUserInput>(input));
+  }
+  static CArchitectureMessage CreateUserVRInput(EArchMsgTarget target, const CFinalInput& input) {
+    return CArchitectureMessage(target, EArchMsgType::UserVRInput, std::make_shared<CArchMsgParmUserInput>(input));
   }
   static const CArchMsgParmReal32& GetParmTimerTick(const CArchitectureMessage& msg) {
     return *msg.GetParm<CArchMsgParmReal32>();
