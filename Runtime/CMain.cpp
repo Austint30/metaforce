@@ -528,6 +528,14 @@ int main(int argc, char** argv) {
       }
     }
 
+    bool startOpenXR = false;
+
+    for (std::string& arg : args){
+      if (arg == "--openxr"){
+        startOpenXR = true;
+      }
+    }
+
     g_app = std::make_unique<metaforce::Application>(argc, argv, fileMgr, cvarMgr, cvarCmns);
     std::string configPath{fileMgr.getStoreRoot()};
     const AuroraConfig config{
@@ -537,12 +545,14 @@ int main(int argc, char** argv) {
         .msaa = cvarCmns.getSamples(),
         .maxTextureAnisotropy = static_cast<uint16_t>(cvarCmns.getAnisotropy()),
         .startFullscreen = cvarCmns.getFullscreen(),
+        .startOpenXR = startOpenXR,
         .iconRGBA8 = icon.data.get(),
         .iconWidth = icon.width,
         .iconHeight = icon.height,
         .logCallback = aurora_log_callback,
         .imGuiInitCallback = aurora_imgui_init_callback,
     };
+
     const auto info = aurora_initialize(argc, argv, &config);
     g_app->onImGuiAddTextures();
     g_app->onAppLaunched(info);
