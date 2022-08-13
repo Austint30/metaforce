@@ -32,6 +32,7 @@
 #include <aurora/event.h>
 #include <aurora/main.h>
 #include <dolphin/vi.h>
+#include <SDL_messagebox.h>
 
 using namespace std::literals;
 
@@ -167,6 +168,7 @@ private:
   bool m_firstFrame = true;
   bool m_fullscreenToggleRequested = false;
   bool m_quitRequested = false;
+  bool m_lAltHeld = false;
   using delta_clock = std::chrono::high_resolution_clock;
   delta_clock::time_point m_prevFrameTime;
 
@@ -185,33 +187,8 @@ public:
   void onAppLaunched(const AuroraInfo& info) noexcept {
     initialize();
 
-    std::string_view backend;
-    switch (info.backend) {
-    case BACKEND_D3D12:
-      backend = "D3D12"sv;
-      break;
-    case BACKEND_METAL:
-      backend = "Metal"sv;
-      break;
-    case BACKEND_VULKAN:
-      backend = "Vulkan"sv;
-      break;
-    case BACKEND_OPENGL:
-      backend = "OpenGL"sv;
-      break;
-    case BACKEND_OPENGLES:
-      backend = "OpenGL ES"sv;
-      break;
-    case BACKEND_WEBGPU:
-      backend = "WebGPU"sv;
-      break;
-    case BACKEND_NULL:
-      backend = "Null"sv;
-      break;
-    default:
-      break;
-    }
-    VISetWindowTitle(fmt::format(FMT_STRING("Metaforce {} [{}]"), METAFORCE_WC_DESCRIBE, backend).c_str());
+    VISetWindowTitle(
+        fmt::format(FMT_STRING("Metaforce {} [{}]"), METAFORCE_WC_DESCRIBE, backend_name(info.backend)).c_str());
 
     m_voiceEngine = boo::NewAudioVoiceEngine("metaforce", "Metaforce");
     m_voiceEngine->setVolume(0.7f);
@@ -244,9 +221,16 @@ public:
   void onSdlEvent(const SDL_Event& event) noexcept {
     switch (event.type) {
     case SDL_KEYDOWN:
+      m_lAltHeld = event.key.keysym.sym == SDLK_LALT;
       // Toggle fullscreen on ALT+ENTER
       if (event.key.keysym.sym == SDLK_RETURN && (event.key.keysym.mod & KMOD_ALT) != 0u && event.key.repeat == 0u) {
         m_cvarCommons.m_fullscreen->fromBoolean(!m_cvarCommons.m_fullscreen->toBoolean());
+      }
+      break;
+    case SDL_KEYUP:
+      if (m_lAltHeld && event.key.keysym.sym == SDLK_LALT) {
+        m_imGuiConsole.ToggleVisible();
+        m_lAltHeld = false;
       }
     }
   }
@@ -448,9 +432,8 @@ static bool IsClientLoggingEnabled(int argc, char** argv) {
 #endif
 }
 
-static void SetupLogging() {}
-
 static std::unique_ptr<metaforce::Application> g_app;
+static SDL_Window* g_window;
 static bool g_paused;
 
 static void aurora_log_callback(AuroraLogLevel level, const char* message, unsigned int len) {
@@ -468,6 +451,10 @@ static void aurora_log_callback(AuroraLogLevel level, const char* message, unsig
     break;
   default:
     break;
+  }
+  if (level == LOG_FATAL) {
+    auto msg = fmt::format(FMT_STRING("Metaforce encountered an internal error:\n\n{}"), message);
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Metaforce", msg.c_str(), g_window);
   }
   metaforce::Log.report(severity, FMT_STRING("{}"), message);
 }
@@ -541,7 +528,7 @@ int main(int argc, char** argv) {
     const AuroraConfig config{
         .appName = "Metaforce",
         .configPath = configPath.c_str(),
-        // .desiredBackend = TODO
+        .desiredBackend = metaforce::backend_from_string(cvarCmns.getGraphicsApi()),
         .msaa = cvarCmns.getSamples(),
         .maxTextureAnisotropy = static_cast<uint16_t>(cvarCmns.getAnisotropy()),
         .startFullscreen = cvarCmns.getFullscreen(),
@@ -554,10 +541,11 @@ int main(int argc, char** argv) {
     };
 
     const auto info = aurora_initialize(argc, argv, &config);
+    g_window = info.window;
     g_app->onImGuiAddTextures();
     g_app->onAppLaunched(info);
     g_app->onAppWindowResized(info.windowSize);
-    while (true) {
+    while (!cvarMgr.restartRequired()) {
       const auto* event = aurora_update();
       bool exiting = false;
       while (event != nullptr && event->type != AURORA_NONE) {
