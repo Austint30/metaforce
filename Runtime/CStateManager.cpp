@@ -2015,6 +2015,10 @@ void CStateManager::ProcessInput(const CFinalInput& input) {
   x870_cameraManager->ProcessInput(input, *this);
 }
 
+void CStateManager::ProcessVRInput() {
+  x870_cameraManager->ProcessVRInput(m_cvrInput, *this);
+}
+
 void CStateManager::UpdateGraphicsTiming(float dt) {
   xf14_curTimeMod900 += dt;
   if (xf14_curTimeMod900 > 900.f) {
@@ -2064,7 +2068,9 @@ void CStateManager::Update(float dt) {
       MovePlatforms(dt);
       MoveActors(dt);
     }
+    ProcessVRInput();
     ProcessPlayerInput();
+    m_cvrInput.Update();
     if (x904_gameState != EGameState::SoftPaused) {
       CGameCollision::Move(*this, *x84c_player, dt, nullptr);
     }
@@ -2073,7 +2079,9 @@ void CStateManager::Update(float dt) {
       CrossTouchActors();
     }
   } else {
+    ProcessVRInput();
     ProcessPlayerInput();
+    m_cvrInput.Update();
   }
 
   if (!dying && x904_gameState == EGameState::Running) {

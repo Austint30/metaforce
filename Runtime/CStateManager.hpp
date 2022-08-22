@@ -28,6 +28,9 @@
 #include "Runtime/World/ScriptLoader.hpp"
 #include "Runtime/World/ScriptObjectSupport.hpp"
 #include "Runtime/World/CScriptMazeNode.hpp"
+#include "Runtime/Input/CVRInput.hpp"
+
+#include "aurora/xr/xr.hpp"
 
 #include <zeus/CAABox.hpp>
 #include <zeus/CVector2f.hpp>
@@ -212,6 +215,9 @@ private:
 
   bool m_logScripting = false;
   std::optional<CVarValueReference<bool>> m_logScriptingReference;
+
+  CVRInput m_cvrInput;
+
   void UpdateThermalVisor();
   static void RendererDrawCallback(void*, void*, int);
 
@@ -456,5 +462,11 @@ public:
 
   const CGameArea* GetCurrentArea() const;
   void SetWarping(bool warp) { m_warping = warp; }
+
+  std::shared_ptr<aurora::xr::OpenXRSessionManager> GetOpenXRSessionManager(){
+    return aurora::xr::g_OpenXRSessionManager;
+  }
+
+  void ProcessVRInput();
 };
 } // namespace metaforce

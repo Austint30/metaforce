@@ -6,6 +6,7 @@
 #include "Runtime/RetroTypes.hpp"
 #include "Runtime/rstl.hpp"
 #include "Runtime/World/CGameArea.hpp"
+#include "Runtime/Input/CVRInput.hpp"
 
 #include <zeus/CVector3f.hpp>
 
@@ -80,6 +81,7 @@ public:
   bool IsInFirstPersonCamera() const;
   zeus::CVector3f GetGlobalCameraTranslation(const CStateManager& stateMgr) const;
   zeus::CTransform GetCurrentCameraTransform(const CStateManager& stateMgr) const;
+  zeus::CTransform GetCurrentCameraTransformPure(const CStateManager& stateMgr) const;
   void RemoveCameraShaker(u32 id);
   int AddCameraShaker(const CCameraShakeData& data, bool sfx);
   void AddCinemaCamera(TUniqueId id, CStateManager& stateMgr);
@@ -124,6 +126,7 @@ public:
   void SetFogDensity(float fogDensityTarget, float fogDensitySpeed);
 
   void ProcessInput(const CFinalInput& input, CStateManager& stateMgr);
+  void ProcessVRInput(const CVRInput& input, CStateManager& mgr);
 
   void RenderCameras(CStateManager& mgr);
   void SetupBallCamera(CStateManager& mgr);
