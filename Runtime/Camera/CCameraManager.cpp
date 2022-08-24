@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include "aurora/xr/xr.hpp"
+#include "aurora/xr/OpenXrSessionMgr.hpp"
 
 #include "Runtime/CStateManager.hpp"
 #include "Runtime/GameGlobalObjects.hpp"

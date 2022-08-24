@@ -3,7 +3,7 @@
 //
 
 #include "CVRInput.hpp"
-#include <aurora/xr/xr.hpp>
+#include "extern/aurora/include/aurora/xr/OpenXrSessionMgr.hpp"
 
 namespace metaforce {
 
