@@ -23,7 +23,7 @@
 	url = https://github.com/Tencent/rapidjson.git
 	branch = master
 [submodule "extern/fixNES"]
-	path = extern/fixNESrm
+	path = extern/fixNES
 	url = https://github.com/FIX94/fixNES.git
 	branch = master
 [submodule "extern/athena"]
