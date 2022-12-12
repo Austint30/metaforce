@@ -23,7 +23,7 @@
 	url = https://github.com/Tencent/rapidjson.git
 	branch = master
 [submodule "extern/fixNES"]
-	path = extern/fixNES
+	path = extern/fixNESrm
 	url = https://github.com/FIX94/fixNES.git
 	branch = master
 [submodule "extern/athena"]
@@ -52,5 +52,5 @@
 	branch = master
 [submodule "extern/aurora"]
 	path = extern/aurora
-	url = https://github.com/encounter/aurora.git
-	branch = main
+	url = https://github.com/Austint30/aurora.git
+	branch = openxr-attempt
