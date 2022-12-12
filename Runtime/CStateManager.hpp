@@ -30,7 +30,7 @@
 #include "Runtime/World/CScriptMazeNode.hpp"
 #include "Runtime/Input/CVRInput.hpp"
 
-#include "aurora/xr/OpenXrSessionMgr.hpp"
+#include "aurora/xr/xr.hpp"
 
 #include <zeus/CAABox.hpp>
 #include <zeus/CVector2f.hpp>
