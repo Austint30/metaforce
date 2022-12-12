@@ -121,6 +121,7 @@ CIOWin::EMessageReturn CMFGame::OnMessage(const CArchitectureMessage& msg, CArch
     if (!x2a_24_initialized)
       break;
     const CFinalInput& input = MakeMsg::GetParmUserInput(msg).x4_parm;
+    const CVRInput& vrInput = m_REMOVE_ME_finalVrTrackingInput;
     if (x1c_flowState == EGameFlowState::InGame) {
       if (input.ControllerIdx() == 0) {
         const CEntity* cam = x14_stateManager->GetCameraManager()->GetCurrentCamera(*x14_stateManager);

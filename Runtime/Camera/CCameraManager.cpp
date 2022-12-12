@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include "aurora/xr/OpenXrSessionMgr.hpp"
+
 #include "Runtime/CStateManager.hpp"
 #include "Runtime/GameGlobalObjects.hpp"
 #include "Runtime/Camera/CBallCamera.hpp"
@@ -35,6 +37,17 @@ zeus::CVector3f CCameraManager::GetGlobalCameraTranslation(const CStateManager& 
 }
 
 zeus::CTransform CCameraManager::GetCurrentCameraTransform(const CStateManager& stateMgr) const {
+  const CGameCamera* camera = GetCurrentCamera(stateMgr);
+  if (aurora::xr::g_OpenXRSessionManager == nullptr){
+    return camera->GetTransform() * zeus::CTransform::Translate(x30_shakeOffset);
+  }
+  return camera->GetTransformVR() * zeus::CTransform::Translate(x30_shakeOffset);
+}
+
+/**
+ * Gets the pure transform of the current camera (no VR modifications)
+ */
+zeus::CTransform CCameraManager::GetCurrentCameraTransformPure(const CStateManager& stateMgr) const {
   const CGameCamera* camera = GetCurrentCamera(stateMgr);
   return camera->GetTransform() * zeus::CTransform::Translate(x30_shakeOffset);
 }
@@ -601,6 +614,20 @@ void CCameraManager::ProcessInput(const CFinalInput& input, CStateManager& state
     cam.ProcessInput(input, stateMgr);
   }
 }
+
+void CCameraManager::ProcessVRInput(const CVRInput& input, CStateManager& mgr) {
+  for (CEntity* ent : mgr.GetCameraObjectList()) {
+    if (ent == nullptr) {
+      continue;
+    }
+    auto& cam = static_cast<CGameCamera&>(*ent);
+    //    if (input.ControllerIdx() != cam.x16c_controllerIdx) {
+    //      continue;
+    //    }
+    cam.ProcessVRInput(input, mgr);
+  }
+}
+
 
 void CCameraManager::RenderCameras(CStateManager& mgr) {
   for (CEntity* cam : mgr.GetCameraObjectList()) {

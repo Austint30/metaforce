@@ -26,6 +26,7 @@ enum class EArchMsgType {
   QuitGameplay = 8,
   FrameBegin = 10,
   FrameEnd = 11,
+  UserVRInput = 12,
 };
 
 struct IArchMsgParm {
@@ -140,6 +141,9 @@ public:
   /* URDE Messages */
   static CArchitectureMessage CreateRemoveAllIOWins(EArchMsgTarget target) {
     return CArchitectureMessage(target, EArchMsgType::RemoveAllIOWins, std::make_shared<CArchMsgParmNull>());
+  }
+  static CArchitectureMessage CreateUserVRInput(EArchMsgTarget target, const CFinalInput& input) {
+    return CArchitectureMessage(target, EArchMsgType::UserVRInput, std::make_shared<CArchMsgParmUserInput>(input));
   }
 };
 } // namespace metaforce

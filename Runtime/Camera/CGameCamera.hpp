@@ -2,6 +2,7 @@
 
 #include "Runtime/RetroTypes.hpp"
 #include "Runtime/World/CActor.hpp"
+#include "Input/CVRInput.hpp"
 
 #include <zeus/CMatrix4f.hpp>
 #include <zeus/CTransform.hpp>
@@ -17,6 +18,7 @@ protected:
   TUniqueId xe8_watchedObject;
   mutable zeus::CMatrix4f xec_perspectiveMatrix;
   zeus::CTransform x12c_origXf;
+  zeus::CTransform m_hmdLocalTransform;
   float x15c_currentFov;
   float x160_znear;
   float x164_zfar;
@@ -39,6 +41,8 @@ public:
   void AcceptScriptMsg(EScriptObjectMessage, TUniqueId, CStateManager&) override;
   void SetActive(bool active) override;
   virtual void ProcessInput(const CFinalInput&, CStateManager& mgr) = 0;
+  virtual void ProcessVRInput(const CVRInput& input, CStateManager& mgr) = 0;
+  virtual zeus::CTransform GetTransformVR() const = 0;
   virtual void Reset(const zeus::CTransform&, CStateManager& mgr) = 0;
 
   zeus::CMatrix4f GetPerspectiveMatrix() const;
