@@ -588,7 +588,11 @@ int main(int argc, char** argv) {
       }
       g_app->onAppIdle(1.f / 60.f /* TODO */);
       aurora_begin_frame();
-      g_app->onAppDraw();
+      while (aurora_has_render_view()){
+        aurora_begin_render_view();
+        g_app->onAppDraw();
+        aurora_end_render_view();
+      }
       aurora_end_frame();
       g_app->onAppPostDraw();
     }
