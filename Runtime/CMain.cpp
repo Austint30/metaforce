@@ -197,9 +197,10 @@ public:
 #if TARGET_OS_IOS || TARGET_OS_TV
     m_deferredProject = std::string{m_fileMgr.getStoreRoot()} + "game.iso";
 #else
+    bool inArg = false;
     for (int i = 1; i < m_argc; ++i) {
       std::string arg = m_argv[i];
-      if (m_deferredProject.empty() && !arg.starts_with('-') && !arg.starts_with('+'))
+      if (m_deferredProject.empty() && !arg.starts_with('-') && !arg.starts_with('+') && CBasics::IsDir(arg.c_str()))
         m_deferredProject = arg;
       else if (arg == "--no-sound")
         m_voiceEngine->setVolume(0.f);
@@ -490,10 +491,9 @@ int main(int argc, char** argv) {
   do {
     metaforce::CVarManager cvarMgr{fileMgr};
     metaforce::CVarCommons cvarCmns{cvarMgr};
+    cvarMgr.parseCommandLine(args);
 
     if (!restart) {
-      cvarMgr.parseCommandLine(args);
-
       // TODO add clear loggers func to logvisor so we can recreate loggers on restart
       bool logging = IsClientLoggingEnabled(argc, argv);
 #if _WIN32
